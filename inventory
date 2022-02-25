@@ -1,0 +1,12 @@
+node02 ansible_host=node02 ansible_user=bob
+node03 ansible_host=node03 ansible_user=bob
+
+[docker_engine]
+node02
+node03
+
+[docker_swarm_manager]
+node03 swarm_labels=deploy
+
+[docker_swarm_worker]
+node02 swarm_labels='["worker", "docker", "foo", "bar"]'

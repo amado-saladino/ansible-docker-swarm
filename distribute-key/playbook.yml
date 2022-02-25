@@ -1,0 +1,9 @@
+- name: distribute ssh key to all hosts
+  hosts: all
+  become: yes
+  tasks:
+    - name: copy key to all hosts
+      authorized_key:
+        user: ahmed
+        state: present
+        key: "{{ lookup('file', '/home/ahmed/.ssh/id_rsa.pub') }}"

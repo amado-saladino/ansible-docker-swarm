@@ -1,0 +1,25 @@
+- name: create user for all hosts
+  hosts: all
+  become: yes
+  tasks:
+    - name: create user 'ahmed'
+      user:
+        name: ahmed
+        state: present
+        groups: sudo
+        shell: /bin/bash
+        password: "{{ 'ahmed' | password_hash('sha512') }}"
+
+- name: create user for localhost
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: create local user 'ahmed'
+      user:
+        name: ahmed
+        state: present
+        groups: sudo
+        generate_ssh_key: yes
+        shell: /bin/bash
+        password: "{{ 'ahmed' | password_hash('sha512') }}"
+      

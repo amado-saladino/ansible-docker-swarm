@@ -1,0 +1,6 @@
+[nodes]
+node03 ansible_host=node03
+node02 ansible_host=node02
+
+[nodes:vars]
+ansible_user=ahmed

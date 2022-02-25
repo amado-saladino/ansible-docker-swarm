@@ -1,0 +1,28 @@
+- name: install docker and swarm
+  hosts: all
+  become: true
+  roles:
+    - role: "nickjj.docker"
+      tags: ["docker"]
+    
+    - role: atosatto.docker-swarm
+
+- name: install docker client on localhost
+  hosts: localhost
+  tasks:
+    - name: copy installation script
+      copy:
+        src: install-docker-client.sh
+        dest: /tmp
+        mode: u+x,g+x
+
+    - name: run installation script
+      shell: /tmp/install-docker-client.sh
+
+    - name: create docker context
+      shell: >
+        docker context create 
+        --docker host=ssh://{{ 
+          hostvars[groups['docker_swarm_manager'][0]]
+        ['ansible_user'] }}@{{ hostvars[groups['docker_swarm_manager'][0]]['inventory_hostname'] }}
+        --description "remote docker daemon" remote-docker

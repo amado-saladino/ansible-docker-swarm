@@ -1,0 +1,19 @@
+- name: install docker and swarm
+  hosts: all
+  become: true
+  roles:
+    - role: "nickjj.docker"
+      tags: ["docker"]
+    
+    - role: atosatto.docker-swarm
+
+- name: Create remote context on localhost
+  hosts: localhost
+  tasks:
+    - name: create docker context
+      shell: >
+        docker context create remote-docker-context
+        --docker host=ssh://{{ 
+          hostvars[groups['docker_swarm_manager'][0]]
+        ['ansible_user'] }}@{{ hostvars[groups['docker_swarm_manager'][0]]['inventory_hostname'] }}
+        --description "remote docker daemon"
