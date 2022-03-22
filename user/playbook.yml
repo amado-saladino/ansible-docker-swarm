@@ -18,6 +18,7 @@
       user:
         name: ahmed
         state: present
+        append: yes
         groups: sudo
         generate_ssh_key: yes
         shell: /bin/bash
